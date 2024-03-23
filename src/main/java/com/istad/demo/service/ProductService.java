@@ -11,9 +11,8 @@ public interface ProductService {
     void createNewProduct(ProductCreateRequest request);
 
     List<ProductDto> findProducts();
-    void editProductByUuid(String uuid, ProductEditRequest request);
+    ProductRespons editProductByUuid(String uuid, ProductEditRequest request);
 
-    List<ProductRespons> findProducts(String name, Boolean status);
 
     ProductRespons findProductById(Integer id);
 

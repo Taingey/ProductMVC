@@ -1,2 +1,12 @@
-package com.istad.demo.dto;public record CategoryRequest() {
+package com.istad.demo.dto;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+public record CategoryRequest(
+       @NotBlank
+       @Size(max = 40)
+       String name,
+        String description
+) {
 }

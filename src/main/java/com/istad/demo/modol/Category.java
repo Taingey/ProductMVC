@@ -13,17 +13,14 @@ import lombok.Setter;
 public class Category {
 
     @Id
+    @Getter
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-
-    private String uuid;
 
     @Column(unique = true, nullable = false, length = 40)
     private String name;
 
     @Column(columnDefinition = "TEXT")
     private String description;
-
 
 }

@@ -8,11 +8,9 @@ import jakarta.validation.constraints.Positive;
 public record ProductCreateRequest(
         @NotBlank
         String name,
-
         @Positive
         @NotNull
         Double price,
-
         @Positive
         @NotNull
         @Max(100)

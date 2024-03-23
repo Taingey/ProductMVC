@@ -1,5 +1,6 @@
 package com.istad.demo.controller;
 
+import com.istad.demo.dto.CategoryRequest;
 import com.istad.demo.dto.CategoryResponse;
 import com.istad.demo.modol.Product;
 import com.istad.demo.service.CategoryService;
@@ -8,10 +9,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,8 @@ import java.util.Map;
 public class CategoriesController {
 
     private final CategoryService categoryService;
+
+
 
     @Operation(summary = "Get all categories")
     @ApiResponses(value = {
@@ -45,5 +48,28 @@ public class CategoriesController {
     @GetMapping
     public List<CategoryResponse> findAllCategories() {
         return categoryService.findCategoryCart();
+    }
+
+    @GetMapping("/{id}")
+    CategoryResponse findCategoryById(@PathVariable Integer id){
+        return categoryService.findCategoryByID(id);
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping
+    void createNewCategory(@Valid @RequestBody CategoryRequest request){
+        categoryService.createdNewCategories(request);
+    }
+
+    @PutMapping("/{id}")
+    CategoryResponse editCategoryById(@PathVariable Integer id,
+                                      @Valid @RequestBody CategoryRequest request){
+        return categoryService.categoriesEdit(id, request);
+    }
+
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @DeleteMapping("/{id}")
+    void deletedCategoryById(@PathVariable Integer id){
+        categoryService.deleteCategoryById(id);
     }
 }

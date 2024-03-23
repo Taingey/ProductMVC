@@ -16,38 +16,37 @@ import java.util.Map;
 @RequestMapping("/api/v1/products")
 @RequiredArgsConstructor
 public class Controller {
+
     private final ProductService productService;
 
-
     @GetMapping
-    public ResponseEntity<?> getProducts() {
+    public ResponseEntity<Map<String, Object>> getProducts() {
         Map<String, Object> data = Map.of("products", productService.findProducts());
-        return ResponseEntity.accepted().body(data);
+        return ResponseEntity.ok(data);
     }
 
     @PutMapping("/uuid/{uuid}")
-    public void editProductByUuid(@PathVariable String uuid,
-                                  @RequestBody ProductEditRequest request) {
-        productService.editProductByUuid(uuid, request);
+    public ProductRespons editProductByUuid(@PathVariable String uuid,
+                                            @RequestBody @Valid ProductEditRequest request) {
+        return productService.editProductByUuid(uuid, request);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public void createNewProduct(@Valid @RequestBody ProductCreateRequest request) {
-        System.out.println("REQUEST: " + request);
         productService.createNewProduct(request);
     }
 
     @GetMapping("/{id}")
-    public Map<String, Object> findProductById(@PathVariable Integer id) {
+    public ResponseEntity<Map<String, Object>> findProductById(@PathVariable Integer id) {
         ProductRespons product = productService.findProductById(id);
-        return Map.of("message", "Product has been found", "data", product);
+        return ResponseEntity.ok(Map.of("message", "Product has been found", "data", product));
     }
 
     @GetMapping("/uuid/{uuid}")
-    public Map<String, Object> findProductByUuid(@PathVariable String uuid) {
+    public ResponseEntity<Map<String, Object>> findProductByUuid(@PathVariable String uuid) {
         ProductRespons product = productService.findProductByUuid(uuid);
-        return Map.of("message", "Product has been found", "data", product);
+        return ResponseEntity.ok(Map.of("message", "Product has been found", "data", product));
     }
 
     @DeleteMapping("/uuid/{uuid}")

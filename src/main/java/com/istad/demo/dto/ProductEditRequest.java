@@ -2,6 +2,7 @@ package com.istad.demo.dto;
 
 public record ProductEditRequest(
         String name,
-        Double price
+        Double price,
+        Integer qty
 ) {
 }
